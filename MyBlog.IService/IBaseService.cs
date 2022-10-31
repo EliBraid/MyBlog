@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 
-namespace MyBlog.IRepository
+namespace MyBlog.IService
 {
-    public interface IBaseRepository<TEntity> where TEntity : class,new() 
+    public interface IBaseService<TEntity> where TEntity : class,new()
     {
         Task CreateAsync(TEntity entity);
 
@@ -29,7 +26,7 @@ namespace MyBlog.IRepository
         /// </summary>
         /// <param name="func"></param>
         /// <returns></returns>
-        Task<List<TEntity>> Query(Expression<Func<TEntity,bool>> func);
+        Task<List<TEntity>> Query(Expression<Func<TEntity, bool>> func);
         /// <summary>
         /// 分页查询
         /// </summary>

@@ -1,4 +1,11 @@
 
+using Microsoft.EntityFrameworkCore;
+using MyBlog.IRepository;
+using MyBlog.IService;
+using MyBlog.Repository;
+using MyBlog.Repository.DbContexts;
+using MyBlog.Service;
+
 namespace MyBlogWebAPI
 {
     public class Program
@@ -13,6 +20,10 @@ namespace MyBlogWebAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            //Add
+            builder.Services.AddCustomIOC();
+            builder.Services.AddPooledDbContextFactory<BlogDbContext>(o=>
+            o.UseSqlServer(builder.Configuration.GetConnectionString("BloggingDatabase")));
 
             var app = builder.Build();
             // Configure the HTTP request pipeline.
@@ -28,6 +39,20 @@ namespace MyBlogWebAPI
             app.MapControllers();
 
             app.Run();
+        }
+    }
+    public static class IOCExtend
+    {
+        public static IServiceCollection AddCustomIOC(this IServiceCollection services)
+        {
+            services.AddScoped<IBlogNewsRepository, BlogNewsRepository>();
+            services.AddScoped<IBlogNewService, BlogNewService>();
+            services.AddScoped<IAuthorRepository, AuthorRepository>();
+            services.AddScoped<IAuthorService, AuthorService>();
+            services.AddScoped<ITypeIdRepository, TypeIdRepository>();
+            services.AddScoped<ITypeIdService, TypeIdService>();
+
+            return services;
         }
     }
 }
