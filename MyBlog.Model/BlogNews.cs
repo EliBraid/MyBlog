@@ -20,9 +20,12 @@ namespace MyBlog.Model
 
         public int LikedCounts { get; set; }
 
-        [NotMapped]
         public int TypeId { get; set; }
-        [NotMapped]
+
         public int AuthorId { get; set; }
+        [NotMapped]
+        public Author Author { get; set; }
+        [NotMapped]
+        public TypeId TypeInfo { get; set; }
     }
 }
