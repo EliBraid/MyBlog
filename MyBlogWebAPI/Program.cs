@@ -21,10 +21,10 @@ namespace MyBlogWebAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             //Add
-            builder.Services.AddCustomIOC();
-            builder.Services.AddPooledDbContextFactory<BlogDbContext>(o=>
+            
+            builder.Services.AddDbContext<BlogDbContext>(o=>
             o.UseSqlServer(builder.Configuration.GetConnectionString("BloggingDatabase")));
-
+            builder.Services.AddCustomIOC();
             var app = builder.Build();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

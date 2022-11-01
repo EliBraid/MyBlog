@@ -42,5 +42,7 @@ namespace MyBlog.IService
         /// <param name="pageSize"></param>
         /// <returns></returns>
         Task<List<TEntity>> QueryPage(Expression<Func<TEntity, bool>> func, int skip, int pageSize);
+
+        Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> func);
     }
 }

@@ -63,5 +63,9 @@ namespace MyBlog.Repository
              await _dbContext.SaveChangesAsync();
         }
 
+        public async Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> func)
+        {
+            return await _dbContext.Set<TEntity>().FirstOrDefaultAsync(func);
+        }
     }
 }

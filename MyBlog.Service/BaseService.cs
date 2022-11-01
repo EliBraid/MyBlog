@@ -22,6 +22,11 @@ namespace MyBlog.Service
            return await _repository.FindAll();
         }
 
+        public async Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> func)
+        {
+            return await _repository.FindAsync(func);
+        }
+
         public virtual async Task<TEntity> FindByIdAsync(int id)
         {
             return await _repository.FindByIdAsync(id);

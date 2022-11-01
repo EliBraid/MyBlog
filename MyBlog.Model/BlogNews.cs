@@ -12,7 +12,7 @@ namespace MyBlog.Model
         [Column(TypeName = "nvarchar(30)")]
         public string Title { get; set; }
 
-        [Column(TypeName ="text")]
+        [Column(TypeName ="nvarchar(max)")]
         public string Content { get; set; }
         public DateTime CreateTime { get; set; }
 

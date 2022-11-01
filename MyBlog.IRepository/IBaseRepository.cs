@@ -20,6 +20,12 @@ namespace MyBlog.IRepository
         /// <returns></returns>
         Task<TEntity> FindByIdAsync(int id);
         /// <summary>
+        /// 条件查询个体
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<TEntity> FindAsync(Expression<Func<TEntity,bool>> func);
+        /// <summary>
         /// 查询所有
         /// </summary>
         /// <returns></returns>
