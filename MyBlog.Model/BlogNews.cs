@@ -12,7 +12,7 @@ namespace MyBlog.Model
         [Column(TypeName = "nvarchar(30)")]
         public string Title { get; set; }
 
-        [Column(TypeName ="nvarchar(max)")]
+        [Column(TypeName = "Text")]
         public string Content { get; set; }
         public DateTime CreateTime { get; set; }
 
@@ -20,12 +20,13 @@ namespace MyBlog.Model
 
         public int LikedCounts { get; set; }
 
-        public int TypeId { get; set; }
+        public Author? Author { get; set; }
 
         public int AuthorId { get; set; }
-        [NotMapped]
-        public Author Author { get; set; }
-        [NotMapped]
-        public TypeId TypeInfo { get; set; }
+
+        public TypeInfo? TypeInfo { get; set; }
+
+        public int TypeInfoId { get; set; }
+
     }
 }

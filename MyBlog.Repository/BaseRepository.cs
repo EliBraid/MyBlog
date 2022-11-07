@@ -18,7 +18,7 @@ namespace MyBlog.Repository
         {
             _dbContext = dbContext;
         }
-        public async Task CreateAsync(TEntity entity)
+        public virtual async Task CreateAsync(TEntity entity)
         {
              entities.Add(entity);
 
@@ -32,7 +32,7 @@ namespace MyBlog.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<TEntity>> FindAll()
+        public virtual async Task<List<TEntity>> FindAll()
         {
             return await _dbContext.Set<TEntity>().ToListAsync();
         }

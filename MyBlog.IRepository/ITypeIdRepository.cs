@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MyBlog.IRepository
 {
-    public interface ITypeIdRepository:IBaseRepository<TypeId>
+    public interface ITypeIdRepository:IBaseRepository<TypeInfo>
     {
         void Method();
     }

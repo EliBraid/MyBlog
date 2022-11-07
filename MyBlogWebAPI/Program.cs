@@ -24,6 +24,13 @@ namespace MyBlogWebAPI
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddMemoryCache();
+            builder.Services.AddStackExchangeRedisCache(option =>
+            {
+                option.Configuration = builder.Configuration.GetConnectionString("RedisConnectionString");
+                option.InstanceName = "wyc";
+
+            });
             builder.Services.AddSwaggerGen(c =>
             {
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

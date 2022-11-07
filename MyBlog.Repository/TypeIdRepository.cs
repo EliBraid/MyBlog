@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MyBlog.Repository
 {
-    public class TypeIdRepository : BaseRepository<TypeId>, ITypeIdRepository
+    public class TypeIdRepository : BaseRepository<TypeInfo>, ITypeIdRepository
     {
         public TypeIdRepository(BlogDbContext dbContext) : base(dbContext)
         {

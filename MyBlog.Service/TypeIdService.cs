@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MyBlog.Service
 {
-    public class TypeIdService:BaseService<TypeId>,ITypeIdService
+    public class TypeIdService:BaseService<TypeInfo>,ITypeIdService
     {
         public TypeIdService(ITypeIdRepository repository)
         {

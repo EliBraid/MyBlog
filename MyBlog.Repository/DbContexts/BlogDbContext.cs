@@ -12,7 +12,7 @@ namespace MyBlog.Repository.DbContexts
     {
         public DbSet<Author> Author { get; set; }
         public DbSet<BlogNews> BlogNews { get; set; }
-        public DbSet<TypeId> TypeId { get; set; }
+        public DbSet<TypeInfo> TypeId { get; set; }
 
         public BlogDbContext(DbContextOptions<BlogDbContext> options):base(options)
         {

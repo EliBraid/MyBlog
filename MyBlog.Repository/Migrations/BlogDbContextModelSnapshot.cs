@@ -60,7 +60,7 @@ namespace MyBlog.Repository.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("Text");
 
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("datetime2");
@@ -72,7 +72,7 @@ namespace MyBlog.Repository.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<int>("TypeId")
+                    b.Property<int>("TypeInfoId")
                         .HasColumnType("int");
 
                     b.Property<int>("ViewsCounts")
@@ -80,10 +80,14 @@ namespace MyBlog.Repository.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("TypeInfoId");
+
                     b.ToTable("BlogNews");
                 });
 
-            modelBuilder.Entity("MyBlog.Model.TypeId", b =>
+            modelBuilder.Entity("MyBlog.Model.TypeInfo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -98,6 +102,25 @@ namespace MyBlog.Repository.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TypeId");
+                });
+
+            modelBuilder.Entity("MyBlog.Model.BlogNews", b =>
+                {
+                    b.HasOne("MyBlog.Model.Author", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyBlog.Model.TypeInfo", "TypeInfo")
+                        .WithMany()
+                        .HasForeignKey("TypeInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("TypeInfo");
                 });
 #pragma warning restore 612, 618
         }

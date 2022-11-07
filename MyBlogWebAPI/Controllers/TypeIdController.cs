@@ -30,7 +30,7 @@ namespace MyBlogWebAPI.Controllers
         public async Task<ActionResult<ApiResult>> Create(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) return ApiResultHelper.Error("名字不能为空");
-            TypeId typeId = new TypeId()
+            TypeInfo typeId = new TypeInfo()
             {
                 TypeName = name
             };

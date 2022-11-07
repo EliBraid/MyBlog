@@ -1,4 +1,5 @@
-﻿using MyBlog.IRepository;
+﻿using Microsoft.EntityFrameworkCore;
+using MyBlog.IRepository;
 using MyBlog.Model;
 using MyBlog.Repository.DbContexts;
 using System;
@@ -13,6 +14,13 @@ namespace MyBlog.Repository
     {
         public BlogNewsRepository(BlogDbContext dbContext) : base(dbContext)
         {
+            
+        }
+
+        public override async Task<List<BlogNews>> FindAll()
+        {
+            var blog =await _dbContext.Set<BlogNews>().Include(p => p.Author).Include(p=>p.TypeInfo).ToListAsync();
+            return blog;
         }
     }
 }

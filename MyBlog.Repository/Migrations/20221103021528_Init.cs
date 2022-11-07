@@ -27,23 +27,6 @@ namespace MyBlog.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BlogNews",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(30)", nullable: false),
-                    Content = table.Column<string>(type: "text", nullable: false),
-                    CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ViewsCounts = table.Column<int>(type: "int", nullable: false),
-                    LikedCounts = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BlogNews", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TypeId",
                 columns: table => new
                 {
@@ -55,16 +38,57 @@ namespace MyBlog.Repository.Migrations
                 {
                     table.PrimaryKey("PK_TypeId", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "BlogNews",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(30)", nullable: false),
+                    Content = table.Column<string>(type: "Text", nullable: false),
+                    CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ViewsCounts = table.Column<int>(type: "int", nullable: false),
+                    LikedCounts = table.Column<int>(type: "int", nullable: false),
+                    AuthorId = table.Column<int>(type: "int", nullable: false),
+                    TypeInfoId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlogNews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BlogNews_Author_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Author",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BlogNews_TypeId_TypeInfoId",
+                        column: x => x.TypeInfoId,
+                        principalTable: "TypeId",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlogNews_AuthorId",
+                table: "BlogNews",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlogNews_TypeInfoId",
+                table: "BlogNews",
+                column: "TypeInfoId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Author");
+                name: "BlogNews");
 
             migrationBuilder.DropTable(
-                name: "BlogNews");
+                name: "Author");
 
             migrationBuilder.DropTable(
                 name: "TypeId");
