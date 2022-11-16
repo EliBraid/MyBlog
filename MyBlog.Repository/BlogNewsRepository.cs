@@ -19,7 +19,7 @@ namespace MyBlog.Repository
 
         public override async Task<List<BlogNews>> FindAll()
         {
-            var blog =await _dbContext.Set<BlogNews>().Include(p => p.Author).Include(p=>p.TypeInfo).ToListAsync();
+            var blog =await _dbContext.Set<BlogNews>().Include(p => p.Author).Include(p=>p.TypeInfo).AsNoTracking().ToListAsync();
             return blog;
         }
     }

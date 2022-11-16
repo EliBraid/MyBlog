@@ -22,5 +22,32 @@ namespace MyBlog.Repository.DbContexts
         //{
         //    optionsBuilder.UseSqlServer(@"server=1.116.234.172;uid=sa;pwd=Ww1632050253.;database=Blog;TrustServerCertificate=true");
         //}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BlogNews>().HasData(
+                new BlogNews
+                {
+                    AuthorId = 1,
+                    Content = "小说你写的",
+                    CreateTime= DateTime.Now,
+                    LikedCounts= 0,
+                    ViewsCounts= 0,
+                    Id=1,
+                    Title = "是你的",
+                    TypeInfoId= 1
+                },
+                new BlogNews
+                {
+                    AuthorId = 1,
+                    Content = "不死小说",
+                    CreateTime = DateTime.Now,
+                    LikedCounts = 0,
+                    ViewsCounts = 0,
+                    Id = 2,
+                    Title = "而现在",
+                    TypeInfoId = 1
+                }
+                );
+        }
     }
 }
