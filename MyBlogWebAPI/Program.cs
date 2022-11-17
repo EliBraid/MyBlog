@@ -1,10 +1,16 @@
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MyBlog.IRepository;
 using MyBlog.IService;
+using MyBlog.Model;
 using MyBlog.Repository;
 using MyBlog.Repository.DbContexts;
 using MyBlog.Service;
@@ -22,15 +28,35 @@ namespace MyBlogWebAPI
             // Add services to the container.
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+            builder.WebHost.ConfigureAppConfiguration((hostCtx,configBuilder)=>
+            {
+                
+                string connStr = builder.Configuration.GetSection("BloggingDatabase").Value;
+                configBuilder.AddDbConfiguration(() => new SqlConnection(connStr), reloadOnChange: true, reloadInterval: TimeSpan.FromSeconds(2));
+            });
+
+            builder.Services.Configure<Redis>(builder.Configuration.GetSection("Redis"));
+            builder.Services.Configure<BlogDatabase>(builder.Configuration.GetSection("Blog"));
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddMemoryCache();
-            builder.Services.AddStackExchangeRedisCache(option =>
-            {
-                option.Configuration = builder.Configuration.GetConnectionString("RedisConnectionString");
-                option.InstanceName = "wyc";
+            //using (ServiceProvider provider = builder.Services.BuildServiceProvider())
+            //{
+            //    IOptionsSnapshot<Redis> options = provider.GetService<IOptionsSnapshot<Redis>>();
 
-            });
+            //    RedisConfiguration =options.Value.ToString();
+            
+            //}
+
+
+                builder.Services.AddStackExchangeRedisCache(option =>
+                {
+                    var redis = builder.Services.BuildServiceProvider().GetRequiredService<IOptions<Redis>>().Value;
+                    option.Configuration = redis.ToString();
+                    option.InstanceName = "wyc";
+
+                });
             builder.Services.AddSwaggerGen(c =>
             {
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -59,9 +85,13 @@ namespace MyBlogWebAPI
             }
 );
             //Add
+
+            builder.Services.AddDbContext<BlogDbContext>(o =>
+            {
+                var blog = builder.Services.BuildServiceProvider().GetRequiredService<IOptions<BlogDatabase>>().Value;
+                o.UseSqlServer(blog.ToString());
+            });
             
-            builder.Services.AddDbContext<BlogDbContext>(o=>
-            o.UseSqlServer(builder.Configuration.GetConnectionString("BloggingDatabase")));
             builder.Services.AddCustomIOC();
             builder.Services.AddCustomJWT();
             builder.Services.AddAutoMapper(typeof(CustomAutoMapperProfile));

@@ -40,16 +40,17 @@ namespace MyBlogWebAPI.Controllers
 
             var data = await _distributedCache.GetStringAsync("All");
 
-            if(data == null)
-            {
-                list = await _blognewservice.FindAll();
-                Console.WriteLine("查询数据库");
-                _distributedCache.SetStringAsync("All", JsonSerializer.Serialize(list));
-            }
-            else
-            {
-                list = JsonSerializer.Deserialize<List<BlogNews>>(data);
-            }
+            //if(data == null)
+            //{
+            //    list = await _blognewservice.FindAll();
+            //    Console.WriteLine("查询数据库");
+            //    _distributedCache.SetStringAsync("All", JsonSerializer.Serialize(list));
+            //}
+            //else
+            //{
+            //    list = JsonSerializer.Deserialize<List<BlogNews>>(data);
+            //}
+            list = await _blognewservice.FindAll();
             return list;
         }
         
