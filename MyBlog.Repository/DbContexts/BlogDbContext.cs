@@ -18,10 +18,7 @@ namespace MyBlog.Repository.DbContexts
         {
 
         }
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer(@"server=1.116.234.172;uid=sa;pwd=Ww1632050253.;database=Blog;TrustServerCertificate=true");
-        //}
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BlogNews>().HasData(
